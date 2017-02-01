@@ -12,8 +12,10 @@ Usage of ./main:
         shared credentials file path
   -p string
         profile name of credentials (default "default")
+  -r string
+        API region (default "us-east-1")
   -u string
         endpoint URL of API Gateway
 
-$ ./main -u https://xxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/test -c ~/.aws/credentials
+$ ./main -u https://xxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/test -c ~/.aws/credentials -r ap-northeast-1
 ```

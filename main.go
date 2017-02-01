@@ -18,6 +18,7 @@ func main() {
 	url := flag.String("u", "", "endpoint URL of API Gateway")
 	credPath := flag.String("c", "", "shared credentials file path")
 	profile := flag.String("p", "default", "profile name of credentials")
+	region := flag.String("r", "us-east-1", "API region")
 	flag.Parse()
 
 	// Create a new HTTP request
@@ -29,7 +30,7 @@ func main() {
 	// Sign the request with the given credentials
 	cred := credentials.NewSharedCredentials(*credPath, *profile)
 	signer := v4.NewSigner(cred)
-	if _, err := signer.Sign(req, nil, "execute-api", "ap-northeast-1", time.Now()); err != nil {
+	if _, err := signer.Sign(req, nil, "execute-api", *region, time.Now()); err != nil {
 		log.Fatalf("failed to sign a HTTP request: %v", err)
 	}
 
