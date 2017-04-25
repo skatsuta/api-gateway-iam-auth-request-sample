@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -19,10 +18,12 @@ func main() {
 	credPath := flag.String("c", "", "shared credentials file path")
 	profile := flag.String("p", "default", "profile name of credentials")
 	region := flag.String("r", "us-east-1", "API region")
+	method := flag.String("m", "GET", "HTTP method")
+	verbose := flag.Bool("v", false, "verbose output")
 	flag.Parse()
 
 	// Create a new HTTP request
-	req, err := http.NewRequest("GET", *url, nil)
+	req, err := http.NewRequest(*method, *url, nil)
 	if err != nil {
 		log.Fatalf("failed to create a new HTTP request: %v", err)
 	}
@@ -35,7 +36,9 @@ func main() {
 	}
 
 	// Print Authorization header for debugging
-	log.Println("Authorization:", req.Header.Get("Authorization"))
+	if *verbose {
+		log.Println("Authorization:", req.Header.Get("Authorization"))
+	}
 
 	// Send the HTTP request
 	client := new(http.Client)
@@ -47,6 +50,5 @@ func main() {
 	defer resp.Body.Close()
 
 	// Print a response to stdout
-	fmt.Println("\nResponse:")
 	io.Copy(os.Stdout, resp.Body)
 }
